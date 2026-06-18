@@ -4,65 +4,350 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Study Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<base target="_blank">
 </head>
 <body>
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
-<div class="background"></div>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span>StudyFlow</span>
+            </div>
 
-<div class="container">
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-tab="dashboard">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-tab" data-tab="tasks">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Tasks</span>
+                </button>
+                <button class="nav-tab" data-tab="pomodoro">
+                    <i class="fas fa-clock"></i>
+                    <span>Focus Timer</span>
+                </button>
+                <button class="nav-tab" data-tab="schedule">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Schedule</span>
+                </button>
+                <button class="nav-tab" data-tab="subjects">
+                    <i class="fas fa-book"></i>
+                    <span>Subjects</span>
+                </button>
+                <button class="nav-tab" data-tab="notes">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>Notes</span>
+                </button>
+            </nav>
 
-    <header>
-        <h1>📚 Smart Study Planner</h1>
-        <p>Plan Better. Study Smarter.</p>
-    </header>
+            <div class="sidebar-footer">
+                <div class="study-streak">
+                    <i class="fas fa-fire"></i>
+                    <div>
+                        <span class="streak-count" id="streakCount">3</span>
+                        <span class="streak-label">Day Streak</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
 
-    <section class="stats">
-        <div class="card">
-            <h2 id="totalTasks">0</h2>
-            <span>Total Tasks</span>
-        </div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="greeting">
+                    <h1 id="greeting">Good Morning</h1>
+                    <p id="currentDate">Loading...</p>
+                </div>
+                <div class="top-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search tasks, notes..." id="globalSearch">
+                    </div>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </header>
 
-        <div class="card">
-            <h2 id="completedTasks">0</h2>
-            <span>Completed</span>
-        </div>
+            <!-- Dashboard Tab -->
+            <section class="tab-content active" id="dashboard">
+                <div class="dashboard-grid">
+                    <!-- Stats Cards -->
+                    <div class="stats-row">
+                        <div class="stat-card glow-purple">
+                            <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+                            <div class="stat-info">
+                                <h3 id="dashTotal">0</h3>
+                                <p>Total Tasks</p>
+                            </div>
+                            <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 12%</div>
+                        </div>
+                        <div class="stat-card glow-blue">
+                            <div class="stat-icon"><i class="fas fa-check-double"></i></div>
+                            <div class="stat-info">
+                                <h3 id="dashCompleted">0</h3>
+                                <p>Completed</p>
+                            </div>
+                            <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 8%</div>
+                        </div>
+                        <div class="stat-card glow-orange">
+                            <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
+                            <div class="stat-info">
+                                <h3 id="dashPending">0</h3>
+                                <p>Pending</p>
+                            </div>
+                            <div class="stat-trend down"><i class="fas fa-arrow-down"></i> 5%</div>
+                        </div>
+                        <div class="stat-card glow-green">
+                            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                            <div class="stat-info">
+                                <h3 id="dashFocus">0h</h3>
+                                <p>Focus Time</p>
+                            </div>
+                            <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 24%</div>
+                        </div>
+                    </div>
 
-        <div class="card">
-            <h2 id="pendingTasks">0</h2>
-            <span>Pending</span>
-        </div>
-    </section>
+                    <!-- Progress & Today's Tasks -->
+                    <div class="dashboard-row">
+                        <div class="glass-card progress-card">
+                            <h3><i class="fas fa-bullseye"></i> Weekly Progress</h3>
+                            <div class="circular-progress">
+                                <svg viewBox="0 0 120 120">
+                                    <circle class="track" cx="60" cy="60" r="50"/>
+                                    <circle class="fill" cx="60" cy="60" r="50" id="weeklyCircle"/>
+                                </svg>
+                                <div class="circular-text">
+                                    <span id="weeklyPercent">0%</span>
+                                    <small>Done</small>
+                                </div>
+                            </div>
+                            <div class="progress-legend">
+                                <div><span class="dot done"></span> Completed</div>
+                                <div><span class="dot remaining"></span> Remaining</div>
+                            </div>
+                        </div>
 
-    <section class="add-task">
-        <input type="text" id="taskInput" placeholder="Enter Study Task...">
-        <button onclick="addTask()">Add Task</button>
-    </section>
+                        <div class="glass-card today-card">
+                            <h3><i class="fas fa-sun"></i> Today's Focus</h3>
+                            <div class="today-tasks" id="todayTasks">
+                                <div class="empty-state">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    <p>No tasks for today yet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-    <section class="progress-section">
-        <h3>Study Progress</h3>
+                    <!-- Subject Breakdown -->
+                    <div class="glass-card subjects-chart">
+                        <h3><i class="fas fa-chart-bar"></i> Subject Breakdown</h3>
+                        <div class="chart-container" id="subjectChart">
+                            <!-- Dynamic bars -->
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <div class="progress-bar">
-            <div id="progress"></div>
-        </div>
+            <!-- Tasks Tab -->
+            <section class="tab-content" id="tasks">
+                <div class="tasks-layout">
+                    <div class="tasks-header">
+                        <h2>My Tasks</h2>
+                        <div class="task-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="pending">Pending</button>
+                            <button class="filter-btn" data-filter="completed">Completed</button>
+                            <button class="filter-btn" data-filter="high">High Priority</button>
+                        </div>
+                    </div>
 
-        <p id="progressText">0% Completed</p>
-    </section>
+                    <div class="add-task-bar">
+                        <input type="text" id="taskInput" placeholder="What do you need to study?">
+                        <select id="taskSubject">
+                            <option value="">Select Subject</option>
+                        </select>
+                        <select id="taskPriority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                        <input type="date" id="taskDueDate">
+                        <button onclick="addTask()" class="btn-primary">
+                            <i class="fas fa-plus"></i> Add Task
+                        </button>
+                    </div>
 
-    <section class="task-section">
-        <h3>Your Tasks</h3>
+                    <div class="tasks-list" id="taskList">
+                        <!-- Tasks render here -->
+                    </div>
+                </div>
+            </section>
 
-        <ul id="taskList"></ul>
-    </section>
+            <!-- Pomodoro Tab -->
+            <section class="tab-content" id="pomodoro">
+                <div class="pomodoro-container">
+                    <div class="timer-modes">
+                        <button class="mode-btn active" data-mode="pomodoro">Pomodoro</button>
+                        <button class="mode-btn" data-mode="short">Short Break</button>
+                        <button class="mode-btn" data-mode="long">Long Break</button>
+                    </div>
 
-</div>
+                    <div class="timer-display">
+                        <div class="timer-ring">
+                            <svg viewBox="0 0 300 300">
+                                <circle class="timer-track" cx="150" cy="150" r="130"/>
+                                <circle class="timer-fill" cx="150" cy="150" r="130" id="timerCircle"/>
+                            </svg>
+                            <div class="timer-time" id="timerDisplay">25:00</div>
+                        </div>
+                    </div>
 
-<script src="script.js"></script>
+                    <div class="timer-controls">
+                        <button class="timer-btn primary" id="startTimer">
+                            <i class="fas fa-play"></i> Start
+                        </button>
+                        <button class="timer-btn" id="pauseTimer">
+                            <i class="fas fa-pause"></i> Pause
+                        </button>
+                        <button class="timer-btn" id="resetTimer">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
 
-<div class="watermark">
-    Sarthak Deokar • Crafted with Passion
-</div>
+                    <div class="timer-stats">
+                        <div class="timer-stat">
+                            <span id="sessionsCompleted">0</span>
+                            <label>Sessions</label>
+                        </div>
+                        <div class="timer-stat">
+                            <span id="totalFocusTime">0h 0m</span>
+                            <label>Total Focus</label>
+                        </div>
+                    </div>
 
+                    <div class="timer-tasks">
+                        <h4>Current Task</h4>
+                        <select id="timerTaskSelect">
+                            <option value="">Select a task to focus on...</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Schedule Tab -->
+            <section class="tab-content" id="schedule">
+                <div class="schedule-container">
+                    <div class="schedule-header">
+                        <h2>Weekly Schedule</h2>
+                        <div class="schedule-nav">
+                            <button id="prevWeek"><i class="fas fa-chevron-left"></i></button>
+                            <span id="weekRange">This Week</span>
+                            <button id="nextWeek"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar renders here -->
+                    </div>
+
+                    <div class="add-event-form">
+                        <h3>Add Study Session</h3>
+                        <div class="form-row">
+                            <input type="text" id="eventTitle" placeholder="Session Title">
+                            <select id="eventSubject">
+                                <option value="">Subject</option>
+                            </select>
+                            <select id="eventDay">
+                                <option value="0">Monday</option>
+                                <option value="1">Tuesday</option>
+                                <option value="2">Wednesday</option>
+                                <option value="3">Thursday</option>
+                                <option value="4">Friday</option>
+                                <option value="5">Saturday</option>
+                                <option value="6">Sunday</option>
+                            </select>
+                            <input type="time" id="eventTime" value="09:00">
+                            <input type="number" id="eventDuration" placeholder="Min" value="60" min="15" max="240" step="15">
+                            <button onclick="addEvent()" class="btn-primary">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Subjects Tab -->
+            <section class="tab-content" id="subjects">
+                <div class="subjects-container">
+                    <div class="subjects-header">
+                        <h2>My Subjects</h2>
+                        <button class="btn-primary" onclick="showAddSubject()">
+                            <i class="fas fa-plus"></i> Add Subject
+                        </button>
+                    </div>
+
+                    <div class="subjects-grid" id="subjectsGrid">
+                        <!-- Subjects render here -->
+                    </div>
+
+                    <div class="add-subject-modal" id="addSubjectModal">
+                        <div class="modal-content">
+                            <h3>Add New Subject</h3>
+                            <input type="text" id="subjectName" placeholder="Subject Name">
+                            <input type="color" id="subjectColor" value="#7c3aed">
+                            <div class="modal-actions">
+                                <button class="btn-secondary" onclick="hideAddSubject()">Cancel</button>
+                                <button class="btn-primary" onclick="addSubject()">Add Subject</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notes Tab -->
+            <section class="tab-content" id="notes">
+                <div class="notes-container">
+                    <div class="notes-sidebar">
+                        <div class="notes-header">
+                            <h2>Quick Notes</h2>
+                            <button class="btn-primary" onclick="createNote()">
+                                <i class="fas fa-plus"></i> New
+                            </button>
+                        </div>
+                        <div class="notes-list" id="notesList">
+                            <!-- Notes list renders here -->
+                        </div>
+                    </div>
+                    <div class="notes-editor">
+                        <input type="text" id="noteTitle" placeholder="Note Title">
+                        <textarea id="noteContent" placeholder="Start typing your notes..."></textarea>
+                        <div class="editor-toolbar">
+                            <span id="noteDate">Last edited: Just now</span>
+                            <button class="btn-primary" onclick="saveNote()">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
